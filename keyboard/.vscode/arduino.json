@@ -1,0 +1,6 @@
+{
+    "board": "SparkFun:avr:promicro",
+    "configuration": "cpu=16MHzatmega32U4",
+    "sketch": "keyboard.ino",
+    "port": "/dev/cu.usbmodemHIDPC1"
+}

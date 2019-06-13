@@ -1,0 +1,6 @@
+{
+    "port": "/dev/cu.wchusbserial1450",
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328old",
+    "sketch": "current_sensor.ino"
+}
