@@ -1,0 +1,6 @@
+{
+    "board": "esp32:esp32:d32_pro",
+    "configuration": "PSRAM=disabled,PartitionScheme=default,FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
+    "sketch": "example.ino",
+    "port": "/dev/cu.SLAB_USBtoUART"
+}
