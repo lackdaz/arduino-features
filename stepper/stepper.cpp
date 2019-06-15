@@ -27,7 +27,7 @@ void Stepper::begin() {
   set_pulse_delay();
 }
 
-void Stepper::test() {
+void Stepper::tango() {
   digitalWrite(dir_pin, HIGH);
   for (int i = 0; i < 3200; i++) {
     digitalWrite(step_pin, HIGH);
@@ -35,7 +35,7 @@ void Stepper::test() {
     digitalWrite(step_pin, LOW);
     delayMicroseconds(pulse_delay);
   }
-  delay(1000);
+  delay(50);
 
   digitalWrite(dir_pin, LOW);
   for (int i = 0; i < 3200; i++) {
@@ -44,7 +44,7 @@ void Stepper::test() {
     digitalWrite(step_pin, LOW);
     delayMicroseconds(pulse_delay);
   }
-  delay(1000);
+  delay(50);
 }
 
 /*
@@ -59,5 +59,25 @@ void Stepper::set_pulse_delay() {
   pulse_delay = 1000000 / hz;
 }
 
-void Stepper::tango() {
+void Stepper::move_backwards(int mm) {
+  double usteps;
+  double ustep_mm;
+  ustep_mm = (double)rev_res / mm_rev;
+  usteps = ustep_mm * mm;
+
+  digitalWrite(dir_pin, HIGH);
+  for (int i = 0; i < usteps; i++) {
+    digitalWrite(step_pin, HIGH);
+    delayMicroseconds(pulse_delay);
+    digitalWrite(step_pin, LOW);
+    delayMicroseconds(pulse_delay);
+  }
+}
+
+void Stepper::charge() {
+  digitalWrite(dir_pin, LOW);
+  digitalWrite(step_pin, HIGH);
+  delayMicroseconds(pulse_delay);
+  digitalWrite(step_pin, LOW);
+  delayMicroseconds(pulse_delay);
 }

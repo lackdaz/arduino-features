@@ -13,7 +13,8 @@ class Stepper {
   public:
     Stepper(int _step_pin, int _dir_pin, int _en_pin, int _microstep, int _mm_rev);
     void begin();
-    void test();
     void tango();
+    void move_backwards(int mm);
+    void charge();
     void set_pulse_delay();
 };
