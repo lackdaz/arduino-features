@@ -3,30 +3,43 @@
 // Date: 20th April 2011
 
 #include <Wire.h>
-#include "SSD1306.h"
+#include <Adafruit_SSD1306.h>
 
-SSD1306  display(0x3C, D2, D3);
+//// If using software SPI (the default case):
+#define OLED_MOSI   D6
+#define OLED_CLK   D5
+#define OLED_DC    D7
+#define OLED_CS    D0
+#define OLED_RESET -1
+Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
 void setup() {
+  pinMode(D8, OUTPUT);
+  digitalWrite(D8, LOW);
+  Wire.begin(D3, D4);
   Serial.begin (115200);
-  pinMode(D4, OUTPUT);
-  digitalWrite(D4, HIGH);
 
-  display.init();
-  display.display();
-  display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_10);
+  display.begin(SSD1306_SWITCHCAPVCC);
+  display.clearDisplay();
+  display.invertDisplay(true);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(0,0);
+
   byte pos = 0;
   // Leonardo: wait for serial port to connect
   while (!Serial) 
     {
     }
 
+  display.clearDisplay();
   Serial.println ();
   Serial.println ("I2C scanner. Scanning ...");
-  display.drawString(0, pos, "I2C Scanner. Scanning ...");
+  display.println("I2C Scan..");
   display.display();
   delay(500);
+  display.clearDisplay();
+  display.setCursor(0,0);
   byte count = 0;
   
   for (byte i = 8; i < 120; i++)
@@ -39,13 +52,13 @@ void setup() {
       Serial.print (" (0x");
       Serial.print (i, HEX);
       Serial.println (")");
-      display.drawString(0, pos += 10, "Found address: " + String(i, DEC) + " (0x" + String(i, HEX) + ")");
+      display.println(String(count + 1) + ":" + String(i, DEC) + "(0x" + String(i, HEX) + ")");
       display.display();
       count++;
       delay (1);  // maybe unneeded?
       } // end of good response
   } // end of for loop
-  display.drawString(0, pos += 10, "Completed. Found " + String(count, DEC) + " device(s)");
+  display.println("Found " + String(count, DEC) + " device(s)");
   display.display();
   Serial.println ("Done.");
   Serial.print ("Found ");
