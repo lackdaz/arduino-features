@@ -1,7 +1,7 @@
 #include "SSD1306.h"
 #include "images.h"
 
-SSD1306  display(0x3c, D3, D4);
+SSD1306  display(0x3C, D2, D3);
 
 #define X_MIDDLE 64
 #define Y_MIDDLE 32
@@ -13,6 +13,10 @@ int progress = 0;
 
 void setup() {
   Serial.begin(115200);
+
+  pinMode(D4, OUTPUT);
+  digitalWrite(D4, HIGH);
+
   display.init();
   display.display();
   draw_logo_demo();

@@ -17,7 +17,9 @@ Stepper::Stepper(
     rev_res(_microstep * DEFAULT_STEPS),
     mm_rev(_mm_rev),
     mm_s_speed(MOTOR_SPEED),
-    pulse_delay(-1) {}
+    pulse_delay(-1),
+    stop_time(0) 
+    {}
 
 void Stepper::begin() {
   pinMode(step_pin, OUTPUT);
@@ -74,10 +76,32 @@ void Stepper::move_backwards(int mm) {
   }
 }
 
+void Stepper::stop() {
+  digitalWrite(en_pin, HIGH);
+  Serial.println("Stepper Stopped");
+}
+
 void Stepper::charge() {
   digitalWrite(dir_pin, LOW);
   digitalWrite(step_pin, HIGH);
   delayMicroseconds(pulse_delay);
   digitalWrite(step_pin, LOW);
   delayMicroseconds(pulse_delay);
+}
+
+void Stepper::test() {
+  for (int i=0; i < (DEFAULT_MICROSTEP * 200);i++) {
+    digitalWrite(dir_pin, HIGH);
+    digitalWrite(step_pin, HIGH);
+    delayMicroseconds(pulse_delay);
+    digitalWrite(step_pin, LOW);
+    delayMicroseconds(pulse_delay);
+  }
+  for (int i=0; i < (DEFAULT_MICROSTEP * 200);i++) {
+    digitalWrite(dir_pin, LOW);
+    digitalWrite(step_pin, HIGH);
+    delayMicroseconds(pulse_delay);
+    digitalWrite(step_pin, LOW);
+    delayMicroseconds(pulse_delay);
+  }  
 }
